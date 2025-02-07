@@ -5,7 +5,7 @@ import * as React from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
-import { ArrowUpRight, ArrowDownRight, ShoppingCart, DollarSign, Users, Package, Download } from "lucide-react"
+import { ArrowUpRight,  ShoppingCart, DollarSign, Users, Package, Download } from "lucide-react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import {
   Bar,

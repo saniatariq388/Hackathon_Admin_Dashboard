@@ -11,7 +11,7 @@ import { sanityFetch } from "@/services/sanityApi";
 
 export interface Card {
   image: string;
-  colors: string;
+  colors: string[]; // Updated to string[]
   productName: string;
   _id: string;
   category: string;
@@ -51,7 +51,20 @@ export default function ProductsCards({
 
         const res = await sanityFetch(query);
 
-        setData(res);
+        // Transform fetched data to match the Card interface
+        const transformedData: Card[] = res.map((product: any) => ({
+          image: product.image || "/default-image.png", // Provide default image if missing
+          colors: product.colors || [], // Ensure colors is an array
+          productName: product.productName || "Unnamed Product", // Provide default name if missing
+          _id: product._id || "", // Ensure _id is a string
+          category: product.category || "Uncategorized", // Provide default category if missing
+          status: product.status || "active", // Provide default status if missing
+          description: product.description || "", // Provide default description if missing
+          inventory: product.inventory || 0, // Provide default inventory if missing
+          price: product.price || 0, // Provide default price if missing
+        }));
+
+        setData(transformedData); // Set transformed data
       } catch (error) {
         console.error("Error fetching data:", error);
         setError("Failed to fetch products. Please try again later."); // Set error message
@@ -87,11 +100,17 @@ export default function ProductsCards({
             key={index}
           >
             <Link
-              href={`/products/ProductDetail?image=${item.image}&colors=${item.colors}&productName=${item.productName}&_id=${item._id}&category=${item.category}&description=${item.description}&inventory=${item.inventory}&price=${item.price}`}
+              href={`/products/ProductDetail?image=${item.image}&colors=${item.colors.join(
+                ","
+              )}&productName=${item.productName}&_id=${item._id}&category=${
+                item.category
+              }&description=${item.description}&inventory=${item.inventory}&price=${
+                item.price
+              }`}
             >
               <div className="relative h-[348px] w-full bg-[#F5F5F5]">
                 <Image
-                  src={item.image ?? "/default-image.png"}
+                  src={item.image}
                   alt="card Image"
                   width={316}
                   height={316}
@@ -116,7 +135,7 @@ export default function ProductsCards({
                 </p>
               </div>
               <p className="text-[15px] leading-6 text-[#757575] font-['ABeeZee']">
-                {item.colors.length} Colour
+                {item.colors.length} Colour{item.colors.length !== 1 ? "s" : ""}
               </p>
               <p className="text-[15px] font-medium leading-7 text-[#111111] font-['Helvetica_Neue']">
                 MRP : ₹ {item.price.toFixed(2)}

@@ -148,10 +148,10 @@ export async function sanityFetch(query: string): Promise<Product[]> {
       category,
       "image": image.asset->url
     }`);
-    console.log("Fetched food items:", res); // Debugging log
+    // console.log("Fetched food items:", res); // Debugging log
     return res;
   } catch (error) {
-    console.error("Error fetching food items:", error);
+    // console.error("Error fetching food items:", error);
     throw error;
   }
 }
@@ -164,7 +164,7 @@ async function uploadImageToSanity(imageUrl: string) {
     if (!response.ok) throw new Error(`Failed to fetch image: ${response.statusText}`);
     const blob = await response.blob();
     const asset = await client.assets.upload("image", blob);
-    console.log("Image uploaded successfully:", asset); // Debugging log
+    // console.log("Image uploaded successfully:", asset); // Debugging log
     return asset;
   } catch (error) {
     console.error("Image upload failed:", error);
@@ -192,7 +192,7 @@ export async function productPostSanity(updatedProduct: Product) {
         category: updatedProduct.category,
       })
       .commit();
-    console.log("Food item updated successfully:", res); // Debugging log
+    // console.log("Food item updated successfully:", res); // Debugging log
     return res;
   } catch (error) {
     console.error("Error updating food item:", error);
